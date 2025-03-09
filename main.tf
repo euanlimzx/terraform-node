@@ -68,13 +68,13 @@ resource "aws_iam_policy" "s3_access_policy" {
         ]
       },
       {
-      Action = [
-        "s3:GetBucketNotification",
-        "s3:PutBucketNotification"
-      ]
-      Effect = "Allow"
-      Resource = aws_s3_bucket.source_bucket.arn
-    }
+        Action = [
+          "s3:GetBucketNotification",
+          "s3:PutBucketNotification"
+        ]
+        Effect   = "Allow"
+        Resource = aws_s3_bucket.source_bucket.arn
+      }
     ]
   })
 }
@@ -250,17 +250,6 @@ resource "aws_cloudwatch_event_target" "ecs_task_target" {
       security_groups  = [aws_security_group.ecs_tasks.id]
       assign_public_ip = false
     }
-    {
-    containerOverrides = [
-      {
-        name = "name-of-container-to-override",
-        environment = [
-          {name: 'S3_BUCKET', value: "$.detail.bucket.name"},
-          {name: 'S3_OBJECT_KEY', value: "$.detail.object.key"},
-        ]
-      }
-    ]
-  }
   }
 }
 
